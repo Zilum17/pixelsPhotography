@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+:root{
+  --steel-100: #f8f9faff;
+  --steel-200: #e9ecefff;
+  --steel-300: #dee2e6ff;
+  --steel-400: #ced4daff;
+  --steel-500: #adb5bdff;
+  --steel-600: #6c757dff;
+  --steel-700: #495057ff;
+  --steel-800: #343a40ff;
+  --steel-900: #212529ff;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./fonts/Montserrat-VF.woff2') format('woff2');
+  font-display: swap;
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
