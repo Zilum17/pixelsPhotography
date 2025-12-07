@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import { productRequest } from "../api/apiAxios";
@@ -15,14 +15,26 @@ export const useProduct = () => {
 
 export const ProductContextProvider = ({children}) => {
   const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+  const [cameras, setCameras] = useState([]);
+  const [accessories, setAccessories] = useState([]);
+
+  const classifyAndLimitProducts = useCallback((data) => {
+    const allCameras = data.filter(p => !p.es_accesorio);
+    const allAccessories = data.filter(p => p.es_accesorio);
+    setCameras(allCameras);
+    setAccessories(allAccessories);
+  }, []);
 
   const getProducts = async () => {
     try {
       setLoading(true);
       const response = await productRequest();
-      // console.log(response.data)
-      setProducts(response.data);
+      const rawData = response.data
+      console.log(rawData)
+      setProducts(rawData)
+      classifyAndLimitProducts(rawData)
     } catch (error) {
       console.error("Error fetching products:", error);
       setProducts([]);
@@ -30,11 +42,37 @@ export const ProductContextProvider = ({children}) => {
       setLoading(false);
     }
   }
+
+  const getProduct = async (id) => {
+    setLoading(true);
+    let productData = products.find(p => p.producto_id == id);
+    
+    if (!productData || products.length === 0) {
+        try {
+            const response = await productRequest(); 
+            const rawData = response.data
+            productData = rawData.find(p => p.producto_id == id);
+            setProducts(rawData);
+            classifyAndLimitProducts(rawData); 
+        } catch (error) {
+            console.error("Error fetching single product:", error);
+            productData = null; 
+        }
+    }
+    
+    setProduct(productData || null);
+    setLoading(false);
+  }
+
   return(
     <ProductContext.Provider value={{
       getProducts,
+      getProduct,
       products,
-      loading
+      product,
+      loading,
+      cameras,
+      accessories
     }}>
       {children}
     </ProductContext.Provider>

@@ -8,8 +8,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%; 
-  background-color: var(--slate-200); 
-  
+  background: var(--steel-200); 
   animation: pulse-grow 1.2s infinite ease-in-out alternate, 
              color-change 2.4s infinite alternate; 
 }
@@ -27,12 +26,12 @@
 
 @keyframes color-change {
     0% {
-        background-color: var(--slate-200);
+        background-color: var(--steel-200);
     }
     50% {
-        background-color: var(--slate-100);
+        background-color: var(--steel-100);
     }
     100% {
-        background-color: var(--slate-200);
+        background-color: var(--steel-200);
     }
 }

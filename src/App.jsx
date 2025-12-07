@@ -4,6 +4,9 @@ import Products from './pages/Products'
 import Product from './pages/Product'
 import NotFound from './pages/NotFound'
 import { ProductContextProvider } from './context/ProductContext'
+import Order from './pages/Order'
+import Cart from './pages/Cart'
+import Facture from './pages/Facture'
 
 
 function App() {
@@ -13,7 +16,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<Product />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/facture" element={<Facture />} />
+        <Route path="*" elementd={<NotFound />} />
       </Routes>
     </ProductContextProvider>
   )
