@@ -30,6 +30,7 @@ const removeClientData = () => {
         console.error("Error removing from LocalStorage:", error);
     }
 };
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const ClienteContext = createContext();
 
@@ -42,7 +43,8 @@ export const useCliente = () => {
 
 export const ClienteContextProvider = ({children}) => {
   const [loading, setLoading] = useState(false);
-  const [cliente, setCliente] = useState({});
+  const [cliente, setCliente] = useState(loadClientData());
+
   const login = useCallback(async (email, password) => {
   setLoading(true);
   
@@ -54,6 +56,7 @@ export const ClienteContextProvider = ({children}) => {
         }
       );
       const serverClientData = response.data;
+      
       const clientDataToStore = {
         id: serverClientData.cliente_id,
         email: serverClientData.email,
@@ -61,9 +64,7 @@ export const ClienteContextProvider = ({children}) => {
       };
 
       saveClientData(clientDataToStore);
-      setCliente(clientDataToStore);
-      
-      return clientDataToStore;
+      setCliente(serverClientData); // Guardar el objeto estandarizado
 
     } catch (err) {
         setCliente(null);
@@ -73,12 +74,19 @@ export const ClienteContextProvider = ({children}) => {
         setLoading(false);
     }
   }, []);
+  
+  const logout = useCallback(() => {
+    setCliente(null);
+    removeClientData();
+  }, []);
+  
   return(
     <ClienteContext.Provider value={{ 
       loadClientData,
       login,
       loading,
-      cliente
+      cliente,
+      logout
     }}>
       {children}
     </ClienteContext.Provider>

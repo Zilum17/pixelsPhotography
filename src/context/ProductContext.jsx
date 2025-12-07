@@ -1,12 +1,39 @@
-import { useState, useCallback } from "react";
-import { useContext } from "react";
-import { createContext } from "react";
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable no-unused-vars */
+import { useState, useCallback, useContext, createContext } from "react";
 import { productRequest } from "../api/apiAxios";
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const ProductContext = createContext();
+const PRODUCTS_STORAGE_KEY = 'ALL_PRODUCTS_DATA';
+const SINGLE_PRODUCT_KEY = 'LAST_VIEWED_PRODUCT';
 
-// eslint-disable-next-line react-refresh/only-export-components
+const saveProductsData = (data) => {
+    try {
+        localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(data));
+    } catch (error) { /* ... */ }
+};
+
+const loadProductsData = () => {
+    try {
+        const storedValue = localStorage.getItem(PRODUCTS_STORAGE_KEY);
+        return storedValue ? JSON.parse(storedValue) : [];
+    } catch (error) { return []; }
+};
+
+const saveSingleProductData = (data) => {
+    try {
+        localStorage.setItem(SINGLE_PRODUCT_KEY, JSON.stringify(data));
+    } catch (error) { /* ... */ }
+};
+
+const loadSingleProductData = () => {
+    try {
+        const storedValue = localStorage.getItem(SINGLE_PRODUCT_KEY);
+        return storedValue ? JSON.parse(storedValue) : {};
+    } catch (error) { return {}; }
+};
+
+
+export const ProductContext = createContext();
 export const useProduct = () => {
   const context = useContext(ProductContext);
   if (!context) throw new Error('useProduct must be used within a ProductContextProvider')
@@ -14,8 +41,9 @@ export const useProduct = () => {
 }
 
 export const ProductContextProvider = ({children}) => {
-  const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState({});
+  const [products, setProducts] = useState(loadProductsData()); 
+  const [product, setProduct] = useState(loadSingleProductData()); 
+  
   const [loading, setLoading] = useState(true);
   const [cameras, setCameras] = useState([]);
   const [accessories, setAccessories] = useState([]);
@@ -24,16 +52,17 @@ export const ProductContextProvider = ({children}) => {
     const allCameras = data.filter(p => !p.es_accesorio);
     const allAccessories = data.filter(p => p.es_accesorio);
     setCameras(allCameras);
+    console.log(1)
     setAccessories(allAccessories);
   }, []);
 
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     try {
       setLoading(true);
       const response = await productRequest();
       const rawData = response.data
-      // console.log(rawData)
       setProducts(rawData)
+      saveProductsData(rawData); 
       classifyAndLimitProducts(rawData)
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -41,9 +70,9 @@ export const ProductContextProvider = ({children}) => {
     } finally {
       setLoading(false);
     }
-  }
+  }, [classifyAndLimitProducts]);
 
-  const getProduct = async (id) => {
+  const getProduct = useCallback(async (id) => {
     setLoading(true);
     let productData = products.find(p => p.producto_id == id);
     
@@ -52,7 +81,10 @@ export const ProductContextProvider = ({children}) => {
             const response = await productRequest(); 
             const rawData = response.data
             productData = rawData.find(p => p.producto_id == id);
+            
             setProducts(rawData);
+            saveProductsData(rawData); 
+            
             classifyAndLimitProducts(rawData); 
         } catch (error) {
             console.error("Error fetching single product:", error);
@@ -61,8 +93,9 @@ export const ProductContextProvider = ({children}) => {
     }
     
     setProduct(productData || null);
+    saveSingleProductData(productData || null); 
     setLoading(false);
-  }
+  }, [products, classifyAndLimitProducts]);
 
   return(
     <ProductContext.Provider value={{

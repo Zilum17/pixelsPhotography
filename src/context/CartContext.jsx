@@ -138,6 +138,7 @@ export const CartContextProvider = ({children}) => {
       clearCart,
       updateQuantity,
       checkCartEmpty,
+      loadCartData
     }}>
       {children}
     </CartContext.Provider>

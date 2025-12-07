@@ -10,6 +10,7 @@ import Facture from './pages/Facture'
 import { CartContextProvider } from './context/CartContext'
 import { ClienteContextProvider } from './context/ClienteContext'
 import { OrderContextProvider } from './context/OrderContext'
+import { FactureContextProvider } from './context/FactureContext'
 
 
 function App() {
@@ -18,15 +19,17 @@ function App() {
       <CartContextProvider>
         <ClienteContextProvider>
           <OrderContextProvider>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:id" element={<Product />} />
-              <Route path="/order" element={<Order />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/facture" element={<Facture />} />
-              <Route path="*" elementd={<NotFound />} />
-            </Routes>
+            <FactureContextProvider>
+               <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<Product />} />
+                <Route path="/order" element={<Order />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/facture" element={<Facture />} />
+                <Route path="*" elementd={<NotFound />} />
+              </Routes>
+            </FactureContextProvider>
           </OrderContextProvider>
         </ClienteContextProvider>
       </CartContextProvider>

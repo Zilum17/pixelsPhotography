@@ -14,7 +14,6 @@ const saveOrderId = (orderId) => {
 const loadOrderId = () => {
     try {
         const storedValue = localStorage.getItem(ORDER_ID_KEY);
-
         return storedValue ? JSON.parse(storedValue) : null; 
     } catch (error) {
         console.error("Error al cargar el ID de pedido de LocalStorage:", error);
@@ -51,18 +50,15 @@ export const OrderContextProvider = ({children}) => {
             const response = await orderRequest(orderData);
             
             const { pedido_id } = response.data;
-            
             saveOrderId(pedido_id);
             setLastOrderId(pedido_id);
 
             setLoading(false);
-            // return { success: true, pedidoId: pedido_id, message: mensaje };
 
         } catch (err) {
             console.error("Error al crear el pedido:", err);
             setError(err.response?.data?.mensaje || "Error al procesar el pedido.");
             setLoading(false);
-            // return { success: false, message: err.response?.data?.mensaje || "Error desconocido." };
         }
     }, []); 
 
@@ -78,7 +74,7 @@ export const OrderContextProvider = ({children}) => {
             error,
             createOrder,
             getSavedOrderId,
-            saveOrderId,
+            saveOrderId
         }}>
             {children}
         </OrderContext.Provider>
