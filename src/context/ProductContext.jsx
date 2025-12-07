@@ -32,7 +32,7 @@ export const ProductContextProvider = ({children}) => {
       setLoading(true);
       const response = await productRequest();
       const rawData = response.data
-      console.log(rawData)
+      // console.log(rawData)
       setProducts(rawData)
       classifyAndLimitProducts(rawData)
     } catch (error) {

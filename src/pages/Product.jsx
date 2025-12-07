@@ -1,14 +1,18 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import SkeletonLoader from "../components/SkeletonLoader";
 import Header from "../components/Header";
 import CirclePulseLoader from "../components/CirclePulseLoader";
 import { useState } from "react";
+import { useCart } from "../context/CartContext";
+import Footer from "../components/Footer";
 
 const Product = () => {
   const {getProduct, product, loading} = useProduct();
+  const { addToCart } = useCart();
   const params = useParams(); 
+  const navigate = useNavigate();
   const productId = params.id;
   const [selectImg, setSelectImg] = useState(1);
   const imageElements = [];
@@ -64,6 +68,23 @@ const Product = () => {
     return precio/12;
   }
 
+  const handleAddToCartAndNavigate = () => {
+    if (product && product.producto_id) {
+      addToCart(product.producto_id, product.cantidad);
+      navigate('/order'); 
+    } else {
+      console.warn("Producto no cargado, no se puede añadir al carrito.");
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (product && product.producto_id) {
+      addToCart(product.producto_id, product.cantidad);
+    } else {
+      console.warn("Producto no cargado, no se puede añadir al carrito.");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -93,18 +114,16 @@ const Product = () => {
             <p className="uppercase font-medium">Stock disponible</p>
             {loading ? <SkeletonLoader type="text" /> : <p>Disponible: {product.stock_actual}</p>}
             <span className="h-full"></span>
-            <Link to="/order" className="h-12 min-h-12 w-full flex items-center justify-center rounded-sm bg-rose-600 text-white uppercase font-medium tracking-[0.2rem]">
+            <button onClick={handleAddToCartAndNavigate} className="h-12 min-h-12 w-full flex items-center justify-center rounded-sm bg-rose-600 text-white uppercase cursor-pointer font-medium tracking-[0.2rem]">
               Comprar
-            </Link>
-            <button className="h-12 min-h-12 w-full flex items-center justify-center rounded-sm bg-rose-100 text-red-600 border cursor-pointer border-rose-600 uppercase font-medium tracking-[0.2rem]">
+            </button>
+            <button onClick={handleAddToCart} className="h-12 min-h-12 w-full flex items-center justify-center rounded-sm bg-rose-100 text-red-600 border cursor-pointer border-rose-600 uppercase font-medium tracking-[0.2rem]">
               Agregar al Carrito
             </button>
           </div>
         </section>
       </main>
-      <footer className="bg-(--steel-100) w-full h-60">
-        
-      </footer>
+      <Footer/>
     </>
   )
 }

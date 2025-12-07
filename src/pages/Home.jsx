@@ -5,9 +5,16 @@ import SkeletonLoader from "../components/SkeletonLoader";
 import CirclePulseLoader from "../components/CirclePulseLoader";
 import { Link } from "react-router-dom";
 import { CardHome } from "../components/home/CardHome";
+import { useCliente } from "../context/ClienteContext";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const {getProducts, products, loading, cameras, accessories} = useProduct();
+  const {login} = useCliente();
+  useEffect(() => {
+    login('zuriel.espejel@gmail.com', '1715');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     getProducts(); 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,9 +103,7 @@ const Home = () => {
           {loading ? <SkeletonLoader type="product-card-home" /> : <CardHome data={accessories[3]} />}
         </section>
       </main>
-      <footer className="bg-(--steel-100) w-full h-60">
-        
-      </footer>
+      <Footer/>
     </>
   )
 }
