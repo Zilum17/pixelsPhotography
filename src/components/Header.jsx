@@ -1,5 +1,5 @@
 
-import { PiBell, PiShoppingCart, PiSlidersHorizontal, PiUser } from 'react-icons/pi'
+import { PiShoppingCart, PiSlidersHorizontal, PiUser } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
 
 export const Header = () => {
@@ -14,13 +14,11 @@ export const Header = () => {
         <Link to="/" className="cursor-pointer text-sm p-2 hover:text-rose-600 transition-colors duration-200">Inicio</Link>
         <Link to="/products" className="cursor-pointer text-sm p-2 hover:text-rose-600 transition-colors duration-200">Productos</Link>
         <Link to="/categories" className="cursor-pointer text-sm p-2 hover:text-rose-600 transition-colors duration-200">Categorias</Link>
-        <Link to="/offers" className="cursor-pointer text-sm p-2 hover:text-rose-600 transition-colors duration-200">Ofertas</Link>
-        <Link to="/help" className="cursor-pointer text-sm p-2 hover:text-rose-600 transition-colors duration-200">Ayuda</Link>
+        <Link to="/help" className="cursor-pointer text-sm p-2 hover:text-rose-600 transition-colors duration-200">Mas Vendidos</Link>
       </nav>
       <span className='h-full w-0.5 bg-(--steel-200) mr-5 ml-5'></span>
       <div className="w-56 h-full flex items-center justify-center gap-2"> 
         <Link to="/cart" className="cursor-pointer p-2 hover:text-rose-600 transition-colors duration-200"><PiShoppingCart size={22}/></Link>
-        <Link to="/bell" className="cursor-pointer p-2 hover:text-rose-600 transition-colors duration-200"><PiBell size={22}/></Link>
         <Link to="/user" className="cursor-pointer p-2 hover:text-rose-600 transition-colors duration-200"><PiUser size={22}/></Link>
         <Link to="/settings" className="cursor-pointer p-2 hover:text-rose-600 transition-colors duration-200"><PiSlidersHorizontal size={22}/></Link>
       </div>

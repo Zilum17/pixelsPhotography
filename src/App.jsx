@@ -1,15 +1,21 @@
 import {Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import Product from './pages/Products'
+import Products from './pages/Products'
+import Product from './pages/Product'
 import NotFound from './pages/NotFound'
+import { ProductContextProvider } from './context/ProductContext'
+
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/products" element={<Product />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <ProductContextProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </ProductContextProvider>
   )
 }
 
