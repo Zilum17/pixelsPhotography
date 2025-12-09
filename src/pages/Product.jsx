@@ -7,6 +7,7 @@ import CirclePulseLoader from "../components/CirclePulseLoader";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import Footer from "../components/Footer";
+import getImageUrl from "../utils/getImageUrl";
 
 const Product = () => {
   const {getProduct, product, loading} = useProduct();
@@ -44,7 +45,7 @@ const Product = () => {
           ) : 
           (
             <img 
-              src={`http://192.168.1.13:8080/pixelsPhoto/images/${product.producto_id.toString()}_${imageNumber}.jpg`} 
+              src={getImageUrl(product.producto_id.toString(),imageNumber)} 
               alt={`Vista ${imageNumber} del Producto`}
               className="w-full h-full object-contain"
               loading="lazy"
@@ -96,7 +97,7 @@ const Product = () => {
                 loading || !product?.producto_id ?
                 <CirclePulseLoader size="100px"/> :
                 <img 
-                  src={`http://192.168.1.13:8080/pixelsPhoto/images/${product.producto_id.toString()}_${selectImg}.jpg`} 
+                  src={getImageUrl(product.producto_id.toString(), selectImg)} 
                   alt="Imagen del Producto"
                   className="w-full h-full object-contain"
                 />

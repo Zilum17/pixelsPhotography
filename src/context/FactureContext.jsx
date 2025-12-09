@@ -79,9 +79,12 @@ export const FactureContextProvider = ({children}) => {
         numero_factura: newInvoiceNumber,
         datos_fiscales_cliente: datosFiscales
     };
+    const dataI = {
+        cliente_id: cliente.cliente_id
+    }
 
     try {
-        // await updatePedidoRequest(invoiceData);
+        await updatePedidoRequest(dataI);
         setInvoice(invoiceData);
         saveInvoiceData(invoiceData);
     } catch(error) {

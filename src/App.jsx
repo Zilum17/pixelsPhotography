@@ -11,7 +11,10 @@ import { CartContextProvider } from './context/CartContext'
 import { ClienteContextProvider } from './context/ClienteContext'
 import { OrderContextProvider } from './context/OrderContext'
 import { FactureContextProvider } from './context/FactureContext'
-
+import History from './pages/History'
+import { OrderHistoryContextProvider } from './context/OrderHistoryContext'
+import { SalesAnalyticsContextProvider } from './context/SalesAnalyticsContext'
+import Graph from './pages/Graph'
 
 function App() {
   return (
@@ -20,15 +23,21 @@ function App() {
         <ClienteContextProvider>
           <OrderContextProvider>
             <FactureContextProvider>
-               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<Product />} />
-                <Route path="/order" element={<Order />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/facture" element={<Facture />} />
-                <Route path="*" elementd={<NotFound />} />
-              </Routes>
+              <OrderHistoryContextProvider>
+                <SalesAnalyticsContextProvider>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/products" element={<Products />} />
+                    <Route path="/product/:id" element={<Product />} />
+                    <Route path="/order" element={<Order />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/facture" element={<Facture />} />
+                    <Route path="/history" element={<History />} />
+                    <Route path="/graph" element={<Graph />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </SalesAnalyticsContextProvider>
+              </OrderHistoryContextProvider>
             </FactureContextProvider>
           </OrderContextProvider>
         </ClienteContextProvider>

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { CardHome } from "../components/home/CardHome";
 import { useCliente } from "../context/ClienteContext";
 import Footer from "../components/Footer";
+import getImageUrl from "../utils/getImageUrl";
 
 const Home = () => {
 	const {getProducts, products, loading, cameras, accessories} = useProduct();
@@ -57,7 +58,7 @@ const Home = () => {
 							dataLoading ?
 							<CirclePulseLoader /> :
 							<img 
-								src={`http://192.168.1.13:8080/pixelsPhoto/images/${products[0].producto_id.toString()}_1.jpg`} 
+								src={getImageUrl(products[0].producto_id.toString())} 
 								alt="Imagen del Producto"
 								className="w-full h-full object-contain hover:scale-105 transition-transform duration-400"
 							/>
@@ -97,7 +98,7 @@ const Home = () => {
 							dataLoading ?
 							<CirclePulseLoader /> :
 							<img 
-								src={`http://192.168.1.13:8080/pixelsPhoto/images/${products[8].producto_id.toString()}_1.jpg`} 
+								src={getImageUrl(products[8].producto_id.toString())} 
 								alt="Imagen del Producto"
 								className="w-full h-full object-contain hover:scale-105 transition-transform duration-400"
 							/>

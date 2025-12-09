@@ -52,7 +52,6 @@ export const ProductContextProvider = ({children}) => {
     const allCameras = data.filter(p => !p.es_accesorio);
     const allAccessories = data.filter(p => p.es_accesorio);
     setCameras(allCameras);
-    console.log(1)
     setAccessories(allAccessories);
   }, []);
 
@@ -60,7 +59,7 @@ export const ProductContextProvider = ({children}) => {
     try {
       setLoading(true);
       const response = await productRequest();
-      const rawData = response.data
+      const rawData = Array.isArray(response.data) ? response.data : [];
       setProducts(rawData)
       saveProductsData(rawData); 
       classifyAndLimitProducts(rawData)

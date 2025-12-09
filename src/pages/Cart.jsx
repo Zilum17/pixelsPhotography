@@ -5,6 +5,7 @@ import { useProduct } from "../context/ProductContext";
 import { useEffect } from "react";
 import CirclePulseLoader from "../components/CirclePulseLoader";
 import { PiMinus, PiPlus } from 'react-icons/pi'
+import getImageUrl from "../utils/getImageUrl";
 const Cart = () => {
   const { checkCartEmpty, cartItems, updateQuantity, removeFromCart } = useCart();
   const { 
@@ -53,7 +54,7 @@ const Cart = () => {
             productsLoading ?
             <CirclePulseLoader /> :
             <img 
-              src={`http://192.168.1.13:8080/pixelsPhoto/images/${product.producto_id.toString()}_1.jpg`} 
+              src={getImageUrl(product.producto_id.toString())} 
               alt="Imagen del Producto"
               className="w-full h-full object-contain"
             />

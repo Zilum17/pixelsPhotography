@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import getImageUrl from "../../utils/getImageUrl";
 
 export const CardHome = ({data}) => {
   const formatNumberForDisplay = (number) => {
@@ -13,7 +14,7 @@ export const CardHome = ({data}) => {
     <Link to={`/product/${data.producto_id.toString()}`} className="min-w-54 w-54 h-full p-2 flex flex-col gap-1 items-center justify-between">
       <div className="bg-white size-40 min-w-40 flex items-center justify-center p-6 rounded-md">
       <img 
-        src={`http://192.168.1.13:8080/pixelsPhoto/images/${data.producto_id.toString()}_1.jpg`} 
+        src={getImageUrl(data.producto_id.toString())} 
         alt="Imagen del Producto"
         className="w-full h-full object-contain hover:scale-105 transition-transform duration-400"
         loading="lazy"
